@@ -2,14 +2,14 @@
 #include <string>
 using namespace std;
 
+// Định nghĩa lớp student (sinh viên)
 class student {
 public:
-    string name;
-    string ID;
-    int year_birth;
-    double score;
+    string name;      // Tên sinh viên
+    string ID;        // Mã sinh viên
+    int year_birth;   // Năm sinh
+    double score;     // Điểm trung bình
 public:
-
     double return_Score() {
         return score;
     }
@@ -23,22 +23,26 @@ public:
     void student_export();
 };
 
+// Định nghĩa cấu trúc node (nút) trong danh sách liên kết
 struct node {
-    student sinhVien;
-    node* link_toNext;
+    student sinhVien;     // Dữ liệu sinh viên
+    node* link_toNext;    // Con trỏ trỏ đến nút kế tiếp
     double get_Score() {
         return sinhVien.return_Score();
     }
     int get_Year() {
         return sinhVien.return_Year();
     }
-    void get_Newlink(node*);
-    node* import_node(student);
+    void get_Newlink(node* x) {
+        link_toNext = x;
+    }
+    node* import_node(student x);
 };
 
+// Định nghĩa lớp list (danh sách liên kết)
 class list {
-    node* head;
-    node* tail;
+    node* head;  // Con trỏ trỏ đến nút đầu tiên
+    node* tail;  // Con trỏ trỏ đến nút cuối cùng
 public:
     node* get_Head() {
         return head;
@@ -51,8 +55,8 @@ public:
         tail = NULL;
     }
     void print();
-    void import_fromHead(node*);
-    void import_fromTail(node*);
+    void import_fromHead(node* x);
+    void import_fromTail(node* x);
     void del_Head();
     void del_Tail();
     void del_after(node* p);
@@ -60,27 +64,28 @@ public:
 
 void call_menu();
 void choose();
-void import_List_Head(list&);
-void import_List_Tail(list&);
-void score_belowFive(list);
-void delete_2000(list&);
-void reset_info(student&, student&);
-void switch_info(student&, student&);
-void re_arrange(list&);
-void delete_list(list&);
+void import_List_Head(list& l);
+void import_List_Tail(list& l);
+void score_belowFive(list l);
+void delete_2000(list& l);
+void reset_info(student& x, student& y);
+void switch_info(student& x, student& y);
+void re_arrange(list& l);
+void delete_list(list& l);
 
-int main(){
+int main() {
     call_menu();
     choose();
     system("pause");
+    return 0;
 }
 
+// Nhập thông tin sinh viên từ bàn phím
 void student::student_import() {
     cout << "  Ho va ten sinh vien: ";
-    int temp = getchar();
+    int temp = getchar();  // Xóa ký tự newline trước đó
     getline(cin, name);
     cout << "  Ma sinh vien: ";
-    int temp1 = getchar();
     getline(cin, ID);
     cout << "  Nam sinh: ";
     cin >> year_birth;
@@ -91,23 +96,22 @@ void student::student_import() {
     }
     cout << "  Diem trung binh: ";
     cin >> score;
-    while (score < 0 || score >10) {
+    while (score < 0 || score > 10) {
         cout << "Diem khong hop le, hay nhap lai" << endl;
         cout << "  Diem trung binh: ";
-        cin >> year_birth;
+        cin >> score;
     }
 }
+
+// Xuất thông tin sinh viên ra màn hình
 void student::student_export() {
-    cout << "  Ho va ten sinh vien: ";
-    cout << name << endl;
-    cout << "  Ma sinh vien: ";
-    cout << ID << endl;
-    cout << "  Nam sinh: ";
-    cout << year_birth << endl;
-    cout << "  Diem trung binh: ";
-    cout << score << endl;
+    cout << "  Ho va ten sinh vien: " << name << endl;
+    cout << "  Ma sinh vien: " << ID << endl;
+    cout << "  Nam sinh: " << year_birth << endl;
+    cout << "  Diem trung binh: " << score << endl;
 }
 
+// Tạo một nút mới chứa thông tin sinh viên
 node* node::import_node(student x) {
     node* p = new node;
     if (p == NULL)
@@ -116,16 +120,16 @@ node* node::import_node(student x) {
     p->link_toNext = NULL;
     return p;
 }
-void node::get_Newlink(node* x) {
-    this->link_toNext = x;
-}
 
+// In danh sách sinh viên
 void list::print() {
-    cout << "Danh sach: ";
+    cout << "Danh sach: " << endl;
     for (node* temp = head; temp != NULL; temp = temp->link_toNext)
         temp->sinhVien.student_export();
     cout << endl;
 }
+
+// Thêm một nút vào đầu danh sách
 void list::import_fromHead(node* x) {
     if (head == NULL) {
         head = tail = x;
@@ -135,6 +139,8 @@ void list::import_fromHead(node* x) {
         head = x;
     }
 }
+
+// Thêm một nút vào cuối danh sách
 void list::import_fromTail(node* x) {
     if (head == NULL) {
         head = tail = x;
@@ -144,48 +150,51 @@ void list::import_fromTail(node* x) {
         tail = x;
     }
 }
+
+// Xóa nút đầu danh sách
 void list::del_Head() {
-    if (head == NULL)
+    if (head == NULL) {
         cout << "Danh sach khong co sinh vien de xoa" << endl;
-    else if (head == tail) {
-        node* temp = head;
-        delete temp;
+    } else if (head == tail) {
+        delete head;
         head = tail = NULL;
         cout << "Da xoa sinh vien dau danh sach" << endl;
-    }
-    else {
+    } else {
         node* temp = head;
         head = head->link_toNext;
         delete temp;
         cout << "Da xoa sinh vien dau danh sach" << endl;
     }
 }
+
+// Xóa nút cuối danh sách
 void list::del_Tail() {
-    if (head == NULL)
+    if (head == NULL) {
         cout << "Danh sach rong, khong co sinh vien de xoa" << endl;
-    else if (head == tail) {
+    } else if (head == tail) {
         delete head;
         head = tail = NULL;
         cout << "Da xoa sinh vien cuoi danh sach" << endl;
-    }
-    else {
+    } else {
         node* temp;
-        for (temp = head; (temp->link_toNext)->link_toNext != NULL; temp = temp->link_toNext);
-        node* last = tail;
-        temp->link_toNext = NULL;
+        for (temp = head; temp->link_toNext != tail; temp = temp->link_toNext);
+        delete tail;
         tail = temp;
-        delete last;
+        tail->link_toNext = NULL;
         cout << "Da xoa sinh vien cuoi danh sach" << endl;
     }
 }
+
+// Xóa nút sau nút p
 void list::del_after(node* p) {
-    if (p != NULL && p != tail) {
+    if (p != NULL && p->link_toNext != NULL) {
         node* temp = p->link_toNext;
         p->link_toNext = temp->link_toNext;
         delete temp;
     }
 }
 
+// Hiển thị menu
 void call_menu() {
     cout << "_____________________________" << endl << endl;
     cout << "1. Nhap vao danh sach n sinh vien bang cach them vao dau danh sach va in ra danh sach vua nhap" << endl;
@@ -196,152 +205,146 @@ void call_menu() {
     cout << "6. In ra danh sach roi xoa toan bo danh sach" << endl;
     cout << "_____________________________" << endl << endl;
 }
+
+// Xử lý lựa chọn từ người dùng
 void choose() {
     cout << "Lua chon cua ban la: ";
     int choice;
     cin >> choice;
-    system("cls");
-    while (choice >= 7 || choice < 1) {
+    while (choice < 1 || choice > 6) {
         cout << "Lua chon khong hop le, vui long nhap lai" << endl;
         cout << "Lua chon cua ban la: ";
         cin >> choice;
-        system("cls");
     }
-    list* l = new list;
-    l->create();
-    while (choice < 7 && choice >0) {
+    list l;
+    l.create();
+    while (choice > 0 && choice <= 6) {
         switch (choice) {
         case 1:
-            system("cls");
-            import_List_Head(*l);
-            l->print();
+            import_List_Head(l);
+            l.print();
             call_menu();
             break;
         case 2:
-            system("cls");
-            import_List_Tail(*l);
-            l->print();
+            import_List_Tail(l);
+            l.print();
             call_menu();
             break;
         case 3:
-            system("cls");
-            score_belowFive(*l);
+            score_belowFive(l);
             cout << endl;
             call_menu();
             break;
         case 4:
-            system("cls");
-            delete_2000(*l);
-            l->print();
+            delete_2000(l);
+            l.print();
             call_menu();
             break;
         case 5:
-            system("cls");
-            re_arrange(*l);
-            l->print();
+            re_arrange(l);
+            l.print();
             call_menu();
             break;
         case 6:
-            system("cls");
-            delete_list(*l);
-            delete l;
-            l = NULL;
+            l.print();
+            delete_list(l);
             call_menu();
-            break;
-        default:
-            system("cls");
-            cout << "Nhan phim bat ky de thoat" << endl;
-            system("pause");
             break;
         }
         cout << "Lua chon cua ban la: ";
         cin >> choice;
     }
 }
+
+// Nhập danh sách sinh viên từ đầu
 void import_List_Head(list& l) {
     int size;
     cout << "Nhap so sinh vien can them vao: ";
     cin >> size;
-    cout << "Nhap danh sach lien ket" << endl;
-    node* temp = new node;
-    for (int i = 1; i <= size; i++) {
-        temp = new node;
+    for (int i = 1; i <= size; ++i) {
         cout << "  Sinh vien thu " << i << ":" << endl;
         student x;
         x.student_import();
+        node* temp = new node;
         temp = temp->import_node(x);
         l.import_fromHead(temp);
     }
     cout << endl;
 }
+
+// Nhập danh sách sinh viên từ cuối
 void import_List_Tail(list& l) {
     int size;
     cout << "Nhap so sinh vien can them vao: ";
     cin >> size;
-    cout << "Nhap danh sach lien ket" << endl;
-    node* temp = new node;
-    for (int i = 1; i <= size; i++) {
-        temp = new node;
-        cout << " sinh vien thu " << i << ":" << endl;
+    for (int i = 1; i <= size; ++i) {
+        cout << "  Sinh vien thu " << i << ":" << endl;
         student x;
         x.student_import();
+        node* temp = new node;
         temp = temp->import_node(x);
         l.import_fromTail(temp);
     }
     cout << endl;
 }
+
+// In ra danh sách các sinh viên có điểm trung bình dưới 5
 void score_belowFive(list l) {
-    cout << "Danh sach cac sinh vien co diem trung binh duoi 5: ";
+    cout << "Danh sach cac sinh vien co diem trung binh duoi 5: " << endl;
     for (node* temp = l.get_Head(); temp != NULL; temp = temp->link_toNext)
         if (temp->get_Score() < 5) {
-            cout << temp->sinhVien.return_Name() << endl;
+            temp->sinhVien.student_export();
         }
 }
+
+// Xóa các sinh viên có năm sinh trước 2000
 void delete_2000(list& l) {
-    if (l.get_Head()->get_Year() < 2000) {
+    while (l.get_Head() != NULL && l.get_Head()->get_Year() < 2000) {
         l.del_Head();
-        return;
     }
-    if (l.get_Tail()->get_Year() < 2000) {
-        l.del_Tail();
-        return;
-    }
-    for (node *p = l.get_Head(); p->link_toNext->get_Year() < 2000; p = p->link_toNext) {
-        if (p != NULL) {
-            l.del_after(p);
-            return;
+    node* current = l.get_Head();
+    while (current != NULL && current->link_toNext != NULL) {
+        if (current->link_toNext->get_Year() < 2000) {
+            l.del_after(current);
+        } else {
+            current = current->link_toNext;
         }
     }
-    cout << "Sinh vien khong ton tai" << endl;
 }
+
+// Đặt lại thông tin sinh viên
 void reset_info(student& x, student& y) {
     x.name = y.name;
     x.ID = y.ID;
     x.year_birth = y.year_birth;
     x.score = y.score;
 }
+
+// Hoán đổi thông tin sinh viên
 void switch_info(student& x, student& y) {
     student temp;
-    temp.name = "";
-    temp.ID = "";
-    temp.year_birth = 0;
-    temp.score = 0;
     reset_info(temp, x);
     reset_info(x, y);
     reset_info(y, temp);
 }
+
+// Sắp xếp danh sách theo thứ tự tăng dần điểm trung bình
 void re_arrange(list& l) {
-    for (node* p = l.get_Head(); p->link_toNext->link_toNext != l.get_Tail(); p = p->link_toNext)
-        for (node* q = l.get_Head()->link_toNext; q->link_toNext != l.get_Tail(); q = q->link_toNext) {
-            if (p->sinhVien.return_Score() > q->sinhVien.return_Score())
-                switch_info(p->sinhVien, q->sinhVien);
-        }
-}
-void delete_list(list& l) {
-    l.del_Head();
-    l.del_Tail();
+    if (l.get_Head() == NULL || l.get_Head()->link_toNext == NULL)
+        return;
+
     for (node* p = l.get_Head(); p != NULL; p = p->link_toNext) {
-        l.del_after(p);
-        cout << "Da xoa toan bo danh sach" << endl;
+        for (node* q = p->link_toNext; q != NULL; q = q->link_toNext) {
+            if (p->sinhVien.return_Score() > q->sinhVien.return_Score()) {
+                switch_info(p->sinhVien, q->sinhVien);
+            }
+        }
+    }
+}
+
+// Xóa toàn bộ danh sách
+void delete_list(list& l) {
+    while (l.get_Head() != NULL) {
+        l.del_Head();
     }
 }
