@@ -1,0 +1,8 @@
+Create a program with an accompanying menu to manage a list of students using a singly linked list (SLL) with the following operations. Note that the information of a student includes: Full Name, Student ID, Year of Birth, and Average Score.
+
+Input the list of N students from the keyboard by adding to the beginning of the SLL and display the entered information.
+Input the list of N students from the keyboard by adding to the end of the SLL and display the entered information.
+Print out the list of students with an average score less than 5.
+Delete students born before the year 2000 from the list.
+Sort students in ascending order by average score.
+Delete all students from the list, but before deleting, print out the information of the students to be removed from the list.
