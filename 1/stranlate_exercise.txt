@@ -1,0 +1,24 @@
+Task 1:
+
+Input a one-dimensional array with N elements, each element being an integer.
+a. Display the array on the screen.
+b. Delete an element at position k in the array.
+c. List the elements with the largest value in the array.
+d. List the elements with the smallest value in the array.
+e. Count the number of negative elements in the array.
+f. Find the largest negative value in the array.
+g. Find the smallest positive value in the array.
+h. Check if there is an element with key equal to x in the array.
+i. Count the number of elements with value equal to x in the array. If there are none, notify that there are no such elements.
+
+Task 2:
+
+Use a one-dimensional array to store a class with N students. Each student includes the following information: Name (string), Student ID (string), Average score.
+a. Print the list of students on the screen.
+b. List students with the highest average score in the class.
+c. Determine how many students have an average score >= 5. If there are none, notify that there are no such students.
+d. Find a student with name X in the class (X is entered from the keyboard).
+e. Delete a student with a given ID from the class. If there is no such student, notify that there is no such student.
+f. Insert a student into the class, ensuring that after insertion, the list of students remains sorted in ascending order by average score.
+
+Note: The operations in Task 1 and Task 2 allow the user to choose from a menu.
