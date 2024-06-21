@@ -1,0 +1,16 @@
+Exercise 1: Using a STACK structure to convert a value from base 10 to base 2. Hint: To convert from base 10 to base 2, divide the decimal value by 2 repeatedly, pushing the remainder onto a stack until the value being divided becomes 0. The values popped from the stack represent the binary result.
+Example: input: 30 Output: 11110
+
+Exercise 2: Write a program with a menu to simulate the process of queuing for movie tickets, consisting of the following components and functions:
+
+Linked list A: Contains seat numbers of available seats in the theater (initially initialized with seat numbers from 1 to n).
+Queue B: Contains queue numbers of customers waiting to buy tickets.
+Linked list C: Contains information about customers who have purchased tickets (seat number and name).
+a. Function to get queue number: Add a node to B. If B is empty, the added node will have queue number 1; otherwise, the queue number will be k + 1, where k is the queue number of the last node in B.
+b. Function to purchase ticket: If there are available seats and customers waiting in the queue, remove a node from B, retrieve the customer's name and selected seat number, add a node to C, and remove the corresponding seat number from A.
+c. Function to cancel ticket: Remove a node from C and add the canceled seat number back to A.
+d. Function to display: Display information about sold tickets (linked list C).
+
+
+
+
