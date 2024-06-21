@@ -1,75 +1,78 @@
 #include <iostream>
 using namespace std;
 
-// Cấu trúc lưu thông tin khách hàng
+// Cấu trúc khách hàng
 struct Customer {
-    string name;
-    int seatNumber;
-    Customer *pNext;
+    string name;       // Tên khách hàng
+    int seatNumber;    // Số ghế của khách hàng
+    Customer *pNext;   // Con trỏ tới khách hàng tiếp theo trong danh sách
 };
 
-// Danh sách khách hàng
+// Cấu trúc danh sách khách hàng
 struct ListCustomer {
-    Customer *pHead;
-    Customer *pTail;
+    Customer *pHead;   // Con trỏ tới khách hàng đầu tiên trong danh sách
+    Customer *pTail;   // Con trỏ tới khách hàng cuối cùng trong danh sách
 };
 
-// Cấu trúc ghế ngồi
+// Cấu trúc ghế
 struct Seat {
-    int number;
-    Seat *pNext;
+    int number;       // Số ghế
+    Seat *pNext;      // Con trỏ tới ghế tiếp theo trong danh sách
 };
 
-// Danh sách ghế ngồi
+// Cấu trúc danh sách ghế
 struct ListSeat {
-    int quantity;
-    Seat *pHead;
-    Seat *pTail;
+    int quantity;     // Số lượng ghế
+    Seat *pHead;      // Con trỏ tới ghế đầu tiên trong danh sách
+    Seat *pTail;      // Con trỏ tới ghế cuối cùng trong danh sách
 };
 
-// Cấu trúc số thứ tự
+// Cấu trúc số thứ tự (STT)
 struct SoThuTu {
-    int stt;
-    SoThuTu *pNext;
+    int stt;           // Số thứ tự
+    SoThuTu *pNext;    // Con trỏ tới STT tiếp theo trong danh sách
 };
 
-// Danh sách chứa số thứ tự
+// Cấu trúc danh sách số thứ tự
 struct List {
-    SoThuTu *pHead;
-    SoThuTu *pTail;
+    SoThuTu *pHead;    // Con trỏ tới STT đầu tiên trong danh sách
+    SoThuTu *pTail;    // Con trỏ tới STT cuối cùng trong danh sách
 };
+
+// Các hàm xử lý
 
 int luaChonMenu();
 
-// Danh sách ghế
+// A. Danh sách ghế
 void addSeat(ListSeat &listSeat, Seat *seat);
-void init(ListSeat &);
+void init(ListSeat &listSeat);
 Seat *CreateSeat(int x);
-void output(ListSeat);
+void output(ListSeat listSeat);
 int demSoPT(ListSeat listSeat);
 void deleteSeat(ListSeat &listSeat);
 bool deleteX(ListSeat &listSeat, int x);
 bool deleteAfter(ListSeat &listSeat, Seat *seat);
-bool isEmpty(ListSeat);
+bool isEmpty(ListSeat listSeat);
 
-// Hàng đợi chứa số thứ tự của khách
-void init(List &);
+// B. Hàng đợi chứa số thứ tự của khách
+void init(List &queue);
 SoThuTu *CreateSoThuTu(int x);
 void EnQueue(List &queue);
 int DeQueue(List &queue);
-void output(List);
+void output(List queue);
 bool isEmpty(List queue);
 
-// Danh sách chứa thông tin khách đã mua vé
-void init(ListCustomer &);
+// C. Danh sách chứa thông tin khách đã mua vé
+void init(ListCustomer &listCustomer);
 Customer *CreateCustomer();
-void addCustomer(ListCustomer &listCustomer, Customer *);
-void output(ListCustomer);
+void addCustomer(ListCustomer &listCustomer, Customer *cust);
+void output(ListCustomer listCustomer);
 void deleteCustomer(ListCustomer &listCustomer);
 bool deleteX(ListCustomer &listCustomer, int x);
-bool deleteAfter(ListCustomer &listCustomer, Customer *);
+bool deleteAfter(ListCustomer &listCustomer, Customer *cust);
 
 int main() {
+    // Khởi tạo danh sách ghế, hàng đợi và danh sách khách hàng
     ListSeat listSeat;
     List queue;
     ListCustomer listCustomer;
@@ -83,12 +86,14 @@ int main() {
         lua_chon = luaChonMenu();
         switch (lua_chon) {
             case 1: {
+                // Lấy số xếp hàng
                 EnQueue(queue);
                 output(queue);
                 cout << "\n";
                 break;
             }
             case 2: {
+                // Mua vé
                 if (!isEmpty(queue)) {
                     if (!isEmpty(listSeat)) {
                         DeQueue(queue);
@@ -101,49 +106,65 @@ int main() {
                         cout << "\nKhong co ghe nao trong";
                     }
                 } else {
-                    cout << "\nKhong co khach hang nao xep hang!";
-                }
-                break;
-            }
-            case 3: {
-                // Code for cancelling tickets
-                break;
-            }
-            case 4: {
+					cout << "\nKhong co khach hang nao xep hang!";
+				}
+				break;
+			}
+			case 3:	{
+				int seatToCancel;
+				cout << "\nNhap so ghe khach hang muon huy: ";
+				cin >> seatToCancel;
+
+				// Xóa khách hàng có số ghế là seatToCancel
+				if (deleteX(listCustomer, seatToCancel)) {
+					// Nếu hủy thành công, cập nhật lại danh sách ghế
+					deleteX(listSeat, seatToCancel);
+					cout << "Huy ve thanh cong!\n";
+				} else {
+					cout << "Khong tim thay khach hang can huy ve!\n";
+				}
+				break;
+			}
+			case 4: {
+                // Hiển thị thông tin những vé đã bán
                 cout << "Danh sach khach hang da dat ve:\n";
                 output(listCustomer);
                 break;
             }
             case 0: {
+                // Thoát chương trình
                 flag = false;
                 break;
             }
-            default:
+            default: {
                 cout << "Lua chon nhap khong dung! Vui long nhap lai: ";
                 cin >> lua_chon;
                 break;
+            }
         }
     }
     return 0;
 }
 
-// Hàm hiển thị menu và nhận lựa chọn
+// Hàm hiển thị menu và trả về lựa chọn của người dùng
 int luaChonMenu() {
     int lua_chon;
-    cout << "\n\n===============================\n";
-    cout << "\nVui long chon chuc nang tuong ung.";
-    cout << "\n1. Lay so xep hang.";
-    cout << "\n2. Mua ve.";
-    cout << "\n3. Huy ve.";
-    cout << "\n4. Hien thi thong tin nhung ve da ban.";
-    cout << "\n0. Thoat chuong trinh";
-    cout << "\n===============================\n";
-    cout << "Lua chon cua ban: ";
+    cout << "\n \n ================================ \n";
+    cout << "\n Vui long chon chuc nang tuong ung.";
+    cout << "\n 1. Lay so xep hang.";
+    cout << "\n 2. Mua ve.";
+    cout << "\n 3. Huy ve.";
+    cout << "\n 4. Hien thi thong tin nhung ve da ban.";
+    cout << "\n 0. Thoat chuong trinh";
+    cout << "\n ================================";
+    cout << "\n Lua chon cua ban: ";
     cin >> lua_chon;
     return lua_chon;
 }
 
-// Danh sách ghế ngồi
+// A. Các hàm xử lý danh sách ghế
+
+// Khởi tạo danh sách ghế
 void init(ListSeat &listSeat) {
     listSeat.pHead = listSeat.pTail = NULL;
     cout << "Nhap so ghe: ";
@@ -154,13 +175,18 @@ void init(ListSeat &listSeat) {
     }
 }
 
+// Tạo một ghế mới
 Seat *CreateSeat(int x) {
     Seat *seat = new Seat;
+    if (seat == NULL) {
+        return NULL;
+    }
     seat->number = x;
     seat->pNext = NULL;
     return seat;
 }
 
+// Thêm một ghế vào danh sách ghế
 void addSeat(ListSeat &listSeat, Seat *seat) {
     if (listSeat.pHead == NULL) {
         listSeat.pHead = listSeat.pTail = seat;
@@ -170,6 +196,7 @@ void addSeat(ListSeat &listSeat, Seat *seat) {
     }
 }
 
+// Xóa ghế đầu tiên trong danh sách ghế
 void deleteSeat(ListSeat &listSeat) {
     if (listSeat.pHead == NULL) {
         return;
@@ -182,6 +209,7 @@ void deleteSeat(ListSeat &listSeat) {
     delete p;
 }
 
+// Đếm số phần tử trong danh sách ghế
 int demSoPT(ListSeat listSeat) {
     int dem = 0;
     Seat *p = listSeat.pHead;
@@ -192,25 +220,33 @@ int demSoPT(ListSeat listSeat) {
     return dem;
 }
 
+// Hiển thị danh sách ghế
 void output(ListSeat listSeat) {
     Seat *p = listSeat.pHead;
     while (p != NULL) {
         cout << p->number << " ";
         p = p->pNext;
     }
-    cout << endl;
 }
 
+// Xóa ghế có số x trong danh sách ghế
 bool deleteX(ListSeat &listSeat, int x) {
     Seat *p = listSeat.pHead;
     Seat *prev = NULL;
     while (p != NULL) {
         if (p->number == x) {
             if (prev == NULL) {
-                deleteSeat(listSeat);
+                listSeat.pHead = p->pNext; // Cập nhật pHead
+                if (listSeat.pHead == NULL) {
+                    listSeat.pTail = NULL; // Nếu pHead là NULL thì cập nhật pTail
+                }
             } else {
-                deleteAfter(listSeat, prev);
+                prev->pNext = p->pNext; // Xóa p
+                if (p == listSeat.pTail) {
+                    listSeat.pTail = prev; // Cập nhật pTail nếu xóa pTail
+                }
             }
+            delete p;
             return true;
         }
         prev = p;
@@ -220,6 +256,7 @@ bool deleteX(ListSeat &listSeat, int x) {
     return false;
 }
 
+// Xóa phần tử sau một phần tử nhất định trong danh sách ghế
 bool deleteAfter(ListSeat &listSeat, Seat *seat) {
     if (seat != NULL) {
         Seat *p = seat->pNext;
@@ -235,22 +272,30 @@ bool deleteAfter(ListSeat &listSeat, Seat *seat) {
     return false;
 }
 
+// Kiểm tra danh sách ghế có rỗng không
 bool isEmpty(ListSeat listSeat) {
-    return listSeat.pHead == NULL;
+    return (listSeat.pHead == NULL);
 }
 
-// Hàng đợi
+// B. Các hàm xử lý hàng đợi số thứ tự
+
+// Khởi tạo hàng đợi
 void init(List &queue) {
     queue.pHead = queue.pTail = NULL;
 }
 
+// Tạo một số thứ tự mới
 SoThuTu *CreateSoThuTu(int x) {
     SoThuTu *soThuTu = new SoThuTu;
+    if (soThuTu == NULL) {
+        return NULL;
+    }
     soThuTu->stt = x;
     soThuTu->pNext = NULL;
     return soThuTu;
 }
 
+// Thêm một số thứ tự vào hàng đợi
 void EnQueue(List &queue) {
     if (isEmpty(queue)) {
         SoThuTu *soThuTu = CreateSoThuTu(1);
@@ -263,50 +308,58 @@ void EnQueue(List &queue) {
     }
 }
 
-bool isEmpty(List queue) {
-    return queue.pHead == NULL;
-}
-
+// Lấy số thứ tự đầu tiên ra khỏi hàng đợi
 int DeQueue(List &queue) {
-    if (!isEmpty(queue)) {
-        SoThuTu *p = queue.pHead;
-        queue.pHead = p->pNext;
-        if (queue.pHead == NULL) {
-            queue.pTail = NULL;
-        }
-        delete p;
-        return 1;
-    } else {
-        cout << "Queue is empty!\n";
+    if (isEmpty(queue)) {
+        return -1;
     }
-    return 0;
+    int stt = queue.pHead->stt;
+    SoThuTu *p = queue.pHead;
+    queue.pHead = p->pNext;
+    if (queue.pHead == NULL) {
+        queue.pTail = NULL;
+    }
+    delete p;
+    return stt;
 }
 
+// Hiển thị hàng đợi
 void output(List queue) {
     SoThuTu *p = queue.pHead;
     while (p != NULL) {
         cout << p->stt << " ";
         p = p->pNext;
     }
-    cout << endl;
 }
 
-// Danh sách khách hàng đã mua vé
+// Kiểm tra hàng đợi có rỗng không
+bool isEmpty(List queue) {
+    return (queue.pHead == NULL);
+}
+
+// C. Các hàm xử lý danh sách khách hàng đã mua vé
+
+// Khởi tạo danh sách khách hàng
 void init(ListCustomer &listCustomer) {
     listCustomer.pHead = listCustomer.pTail = NULL;
 }
 
+// Tạo một khách hàng mới
 Customer *CreateCustomer() {
     Customer *cust = new Customer;
-    cout << "\nNhap so ghe khach muon chon: ";
+    if (cust == NULL) {
+        return NULL;
+    }
+    cout << "\nNhap so ghe: ";
     cin >> cust->seatNumber;
-    cout << "Nhap ten khach hang: ";
-    cin.ignore();
+    cout << "\nNhap ten: ";
+    cin.ignore();  // Xóa bộ đệm
     getline(cin, cust->name);
     cust->pNext = NULL;
     return cust;
 }
 
+// Thêm một khách hàng vào danh sách khách hàng
 void addCustomer(ListCustomer &listCustomer, Customer *cust) {
     if (listCustomer.pHead == NULL) {
         listCustomer.pHead = listCustomer.pTail = cust;
@@ -316,6 +369,16 @@ void addCustomer(ListCustomer &listCustomer, Customer *cust) {
     }
 }
 
+// Hiển thị danh sách khách hàng
+void output(ListCustomer listCustomer) {
+    Customer *p = listCustomer.pHead;
+    while (p != NULL) {
+        cout << p->seatNumber << " - " << p->name << "\n";
+        p = p->pNext;
+    }
+}
+
+// Xóa khách hàng đầu tiên trong danh sách khách hàng
 void deleteCustomer(ListCustomer &listCustomer) {
     if (listCustomer.pHead == NULL) {
         return;
@@ -328,24 +391,24 @@ void deleteCustomer(ListCustomer &listCustomer) {
     delete p;
 }
 
-void output(ListCustomer listCustomer) {
-    Customer *p = listCustomer.pHead;
-    while (p != NULL) {
-        cout << "So ghe: " << p->seatNumber << " Name: " << p->name << endl;
-        p = p->pNext;
-    }
-}
-
+// Xóa khách hàng có số ghế là x trong danh sách khách hàng
 bool deleteX(ListCustomer &listCustomer, int x) {
     Customer *p = listCustomer.pHead;
     Customer *prev = NULL;
     while (p != NULL) {
         if (p->seatNumber == x) {
             if (prev == NULL) {
-                deleteCustomer(listCustomer);
+                listCustomer.pHead = p->pNext; // Cập nhật pHead
+                if (listCustomer.pHead == NULL) {
+                    listCustomer.pTail = NULL; // Nếu pHead là NULL thì cập nhật pTail
+                }
             } else {
-                deleteAfter(listCustomer, prev);
+                prev->pNext = p->pNext; // Xóa p
+                if (p == listCustomer.pTail) {
+                    listCustomer.pTail = prev; // Cập nhật pTail nếu xóa pTail
+                }
             }
+            delete p;
             return true;
         }
         prev = p;
@@ -355,6 +418,7 @@ bool deleteX(ListCustomer &listCustomer, int x) {
     return false;
 }
 
+// Xóa phần tử sau một phần tử nhất định trong danh sách khách hàng
 bool deleteAfter(ListCustomer &listCustomer, Customer *cust) {
     if (cust != NULL) {
         Customer *p = cust->pNext;
