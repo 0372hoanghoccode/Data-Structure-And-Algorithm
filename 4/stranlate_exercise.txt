@@ -1,0 +1,15 @@
+Create a program with a menu that performs the following operations on a one-dimensional array of integers with N elements generated randomly:
+
+Print Array: Display the entire array.
+Find Maximum Value: Identify the largest value in the array.
+Find Index of Maximum Value: Determine the position of the first occurrence of the maximum value in the array.
+Find All Indices of Maximum Value: List all positions that contain the maximum value.
+Linear Search for Value x: Find the position of a user-input value x using linear search and measure the execution time.
+Improved Linear Search for Value x: Find the position of value x using an improved linear search method and measure the execution time.
+Find All Indices of Value x: List all positions containing a user-input value x.
+Re-generate Array in Ascending Order: Regenerate the array in ascending order and redo operations 5, 6, and 7 using linear search algorithms.
+Re-generate Array in Ascending Order Using Interpolation Search: Regenerate the array in ascending order and redo operations 5, 6, and 7 using interpolation search algorithms.
+List All Value Pairs: List all pairs of values in the array where pairs (1,2) and (2,1) are considered identical.
+Sort Array Using Interchange Sort: Sort the original array using the Interchange Sort algorithm and measure the execution time.
+Sort Array Using Selection Sort: Sort the original array using the Selection Sort algorithm and measure the execution time.
+Ensure the program includes comprehensive comments and handles user inputs properly.
