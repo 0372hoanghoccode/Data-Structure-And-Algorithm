@@ -5,20 +5,32 @@
 
 using namespace std;
 
+// Hàm tạo số ngẫu nhiên trong khoảng từ min đến max
 int random(int, int);
+
+// Hàm tạo mảng ngẫu nhiên
 void generator_random(int*, int);
 
+// Các hàm tạo mảng
 void array_Generate(int*, int);
 void array_Generate_Increase(int*, int);
+
+// Hàm xuất mảng ra màn hình
 void array_Export(int*, int);
+
+// Các hàm tạo và tìm kiếm giá trị trong mảng
 void GenerateArray_and_Find();
 void GenerateArray_and_Search();
+
+// Hàm in các cặp giá trị trong mảng
 void print_pair(int*, int);
 
+// Các hàm tìm giá trị lớn nhất và vị trí của nó
 int maxValue(int*, int);
 int indexOf_maxValue(int*, int);
 void indexesOf_maxValue(int*, int);
 
+// Các hàm tìm vị trí của giá trị X trong mảng
 int IndexOf_X(int*, int, int);
 int IndexOf_X_Improved(int*, int, int);
 void IndexesOf_X(int*, int, int);
@@ -26,13 +38,16 @@ void find_IndexOf_X(int*, int, int);
 void find_IndexOf_X_improved(int*, int, int);
 void find_IndexsOf_X(int*, int, int);
 
+// Các hàm tìm kiếm sử dụng Interpolation Search
 int InterPolationSearch(int*, int, int);
 void find_IndexOf_X_with_InterPolationSearch(int*, int, int);
 void find_IndexsOf_X_with_InterPolationSearch(int*, int, int);
 
+// Các hàm sắp xếp
 void Interchange_Sort(int*, int);
 void Selection_Sort(int*, int);
 
+// Hàm chọn lựa chức năng
 void choose(int*, int);
 
 int main() {
@@ -46,6 +61,7 @@ int main() {
     return 0;
 }
 
+// Hàm chọn lựa chức năng để thực hiện
 void choose(int* arr, int n) {
     while (true) {
         cout << "_______________________________" << endl;
@@ -174,6 +190,7 @@ void choose(int* arr, int n) {
     }
 }
 
+// Hàm tạo số ngẫu nhiên trong khoảng từ min đến max
 int random(int min, int max) {
     static bool first = true;
     if (first) {
@@ -183,16 +200,19 @@ int random(int min, int max) {
     return min + rand() % ((max + 1) - min);
 }
 
+// Hàm tạo mảng ngẫu nhiên
 void generator_random(int* arr, int n) {
     for (int i = 0; i < n; i++)
         arr[i] = random(-1000, 1000);
 }
 
+// Hàm tạo mảng ngẫu nhiên
 void array_Generate(int* arr, int size) {
     for (int i = 0; i < size; i++)
         arr[i] = random(-10000, 10000);
 }
 
+// Hàm tạo mảng tăng dần ngẫu nhiên
 void array_Generate_Increase(int* arr, int size) {
     srand(time(NULL));
     if (size > 0) {
@@ -202,6 +222,7 @@ void array_Generate_Increase(int* arr, int size) {
     }
 }
 
+// Hàm xuất mảng ra màn hình
 void array_Export(int* arr, int size) {
     for (int i = 0; i < size; i++)
         cout << arr[i] << " ";
@@ -209,6 +230,7 @@ void array_Export(int* arr, int size) {
     cout << "_______________________________" << endl;
 }
 
+// Hàm tạo và tìm kiếm giá trị trong mảng
 void GenerateArray_and_Find() {
     int n;
     cout << "So luong phan tu la: ";
@@ -235,6 +257,7 @@ void GenerateArray_and_Find() {
     delete[] array;
 }
 
+// Hàm tạo và tìm kiếm giá trị trong mảng sử dụng Interpolation Search
 void GenerateArray_and_Search() {
     int n;
     cout << "So luong phan tu la: ";
@@ -258,6 +281,7 @@ void GenerateArray_and_Search() {
     delete[] array;
 }
 
+// Hàm in các cặp giá trị trong mảng
 void print_pair(int* arr, int size) {
     for (int i = 0; i < size - 1; i++) {
         for (int j = i + 1; j < size; j++)
@@ -266,146 +290,165 @@ void print_pair(int* arr, int size) {
     }
 }
 
+// Hàm tìm giá trị lớn nhất trong mảng
 int maxValue(int* arr, int size) {
-    int max = arr[0];
-    for (int i = 1; i < size; i++)
-        if (arr[i] > max)
-            max = arr[i];
-    return max;
+    return *max_element(arr, arr + size);
 }
 
+// Hàm tìm vị trí của giá trị lớn nhất trong mảng
 int indexOf_maxValue(int* arr, int size) {
-    int max = maxValue(arr, size);
-    for (int i = 0; i < size; i++)
-        if (arr[i] == max)
-            return i;
-    return -1;
+    int maxIdx = 0;
+    for (int i = 1; i < size; i++) {
+        if (arr[i] > arr[maxIdx])
+            maxIdx = i;
+    }
+    return maxIdx;
 }
 
+// Hàm tìm tất cả các vị trí của giá trị lớn nhất trong mảng
 void indexesOf_maxValue(int* arr, int size) {
-    int max = maxValue(arr, size);
-    cout << "Cac vi tri chua gia tri lon nhat gom: ";
-    for (int i = 0; i < size; i++)
-        if (arr[i] == max)
+    int maxVal = maxValue(arr, size);
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == maxVal)
             cout << i << " ";
+    }
     cout << endl;
 }
 
-int IndexOf_X(int* arr, int size, int key) {
-    for (int i = 0; i < size; i++)
-        if (arr[i] == key)
+// Hàm tìm vị trí của giá trị X trong mảng
+int IndexOf_X(int* arr, int size, int x) {
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == x)
             return i;
+    }
     return -1;
 }
 
-int IndexOf_X_Improved(int* arr, int size, int key) {
-    int* temp = new int[size + 1];
-    for (int i = 0; i < size; i++)
-        temp[i] = arr[i];
-    temp[size] = key;
-    int i;
-    for (i = 0; temp[i] != key; i++);
-    delete[] temp;
-    if (i < size)
-        return i;
+// Hàm cải tiến tìm vị trí của giá trị X trong mảng
+int IndexOf_X_Improved(int* arr, int size, int x) {
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == x)
+            return i;
+        if (arr[i] > x)
+            return -1;
+    }
     return -1;
 }
 
-void IndexesOf_X(int* arr, int size, int key) {
-    for (int i = 0; i < size; i++)
-        if (arr[i] == key)
+// Hàm tìm tất cả các vị trí của giá trị X trong mảng
+void IndexesOf_X(int* arr, int size, int x) {
+    bool found = false;
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == x) {
             cout << i << " ";
-}
-
-void find_IndexOf_X(int* arr, int size, int key) {
-    clock_t begin, end;
-    begin = clock();
-    int index = IndexOf_X(arr, size, key);
-    if (index == -1)
-        cout << "Gia tri " << key << " khong ton tai trong mang" << endl;
-    else
-        cout << "Gia tri x nam tai vi tri " << index << endl;
-    end = clock();
-    cout << "Tong thoi gian thuc hien la " << (double)(end - begin) / CLOCKS_PER_SEC << " giay" << endl;
-}
-
-void find_IndexOf_X_improved(int* arr, int size, int key) {
-    clock_t begin, end;
-    begin = clock();
-    int index = IndexOf_X_Improved(arr, size, key);
-    if (index == -1)
-        cout << "Gia tri " << key << " khong ton tai trong mang" << endl;
-    else
-        cout << "Gia tri x nam tai vi tri " << index << endl;
-    end = clock();
-    cout << "Tong thoi gian thuc hien la " << (double)(end - begin) / CLOCKS_PER_SEC << " giay" << endl;
-}
-
-void find_IndexsOf_X(int* arr, int size, int key) {
-    if (IndexOf_X(arr, size, key) == -1)
-        cout << "Gia tri x khong ton tai trong mang" << endl;
-    else {
-        cout << "Gia tri x nam tai vi tri ";
-        IndexesOf_X(arr, size, key);
-        cout << endl;
+            found = true;
+        }
     }
+    if (!found)
+        cout << "Khong tim thay gia tri " << x << " trong mang." << endl;
+    else
+        cout << endl;
 }
 
-int InterPolationSearch(int* arr, int size, int key) {
-    int left = 0, right = size - 1;
-    while (left <= right && key >= arr[left] && key <= arr[right]) {
-        double mid1 = (double)(key - arr[left]) / (arr[right] - arr[left]);
-        int mid2 = (right - left);
-        int search_index = left + mid1 * mid2;
-        if (arr[search_index] == key)
-            return search_index;
-        if (arr[search_index] < key)
-            left = search_index + 1;
+// Hàm tìm vị trí của giá trị X trong mảng và in ra kết quả
+void find_IndexOf_X(int* arr, int size, int x) {
+    int index = IndexOf_X(arr, size, x);
+    if (index != -1)
+        cout << "Gia tri " << x << " xuat hien dau tien o vi tri " << index << endl;
+    else
+        cout << "Khong tim thay gia tri " << x << " trong mang." << endl;
+}
+
+// Hàm cải tiến tìm vị trí của giá trị X trong mảng và in ra kết quả
+void find_IndexOf_X_improved(int* arr, int size, int x) {
+    int index = IndexOf_X_Improved(arr, size, x);
+    if (index != -1)
+        cout << "Gia tri " << x << " xuat hien dau tien o vi tri " << index << endl;
+    else
+        cout << "Khong tim thay gia tri " << x << " trong mang." << endl;
+}
+
+// Hàm tìm tất cả các vị trí của giá trị X trong mảng và in ra kết quả
+void find_IndexsOf_X(int* arr, int size, int x) {
+    IndexesOf_X(arr, size, x);
+}
+
+// Hàm tìm vị trí của giá trị X trong mảng sử dụng Interpolation Search
+int InterPolationSearch(int* arr, int size, int x) {
+    int low = 0, high = size - 1;
+    while (low <= high && x >= arr[low] && x <= arr[high]) {
+        int pos = low + ((double)(high - low) / (arr[high] - arr[low]) * (x - arr[low]));
+        if (arr[pos] == x)
+            return pos;
+        if (arr[pos] < x)
+            low = pos + 1;
         else
-            right = search_index - 1;
+            high = pos - 1;
     }
     return -1;
 }
 
-void find_IndexOf_X_with_InterPolationSearch(int* arr, int size, int key) {
-    clock_t begin, end;
-    begin = clock();
-    int index = InterPolationSearch(arr, size, key);
-    if (index == -1)
-        cout << "Gia tri " << key << " khong ton tai trong mang" << endl;
+// Hàm tìm vị trí của giá trị X trong mảng và in ra kết quả sử dụng Interpolation Search
+void find_IndexOf_X_with_InterPolationSearch(int* arr, int size, int x) {
+    int index = InterPolationSearch(arr, size, x);
+    if (index != -1)
+        cout << "Gia tri " << x << " xuat hien dau tien o vi tri " << index << endl;
     else
-        cout << "Gia tri x nam tai vi tri " << index << endl;
-    end = clock();
-    cout << "Tong thoi gian thuc hien la " << (double)(end - begin) / CLOCKS_PER_SEC << " giay" << endl;
+        cout << "Khong tim thay gia tri " << x << " trong mang." << endl;
 }
 
-void find_IndexsOf_X_with_InterPolationSearch(int* arr, int size, int key) {
-    if (InterPolationSearch(arr, size, key) == -1)
-        cout << "Gia tri x khong ton tai trong mang" << endl;
-    else {
-        cout << "Gia tri x nam tai vi tri ";
-        IndexesOf_X(arr, size, key);
-        cout << endl;
+// Hàm tìm tất cả các vị trí của giá trị X trong mảng và in ra kết quả sử dụng Interpolation Search
+void find_IndexsOf_X_with_InterPolationSearch(int* arr, int size, int x) {
+    bool found = false;
+    int low = 0, high = size - 1;
+    while (low <= high && x >= arr[low] && x <= arr[high]) {
+        int pos = low + ((double)(high - low) / (arr[high] - arr[low]) * (x - arr[low]));
+        if (arr[pos] == x) {
+            cout << pos << " ";
+            found = true;
+            int left = pos - 1;
+            while (left >= low && arr[left] == x) {
+                cout << left << " ";
+                left--;
+            }
+            int right = pos + 1;
+            while (right <= high && arr[right] == x) {
+                cout << right << " ";
+                right++;
+            }
+            cout << endl;
+            return;
+        }
+        if (arr[pos] < x)
+            low = pos + 1;
+        else
+            high = pos - 1;
     }
+    if (!found)
+        cout << "Khong tim thay gia tri " << x << " trong mang." << endl;
 }
 
+// Hàm sắp xếp mảng sử dụng Interchange Sort
 void Interchange_Sort(int* arr, int size) {
-    for (int i = 0; i < size - 1; i++)
-        for (int j = i + 1; j < size; j++)
-            if (arr[i] > arr[j])
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (arr[i] > arr[j]) {
                 swap(arr[i], arr[j]);
-    cout << "Mang sau khi sap xep la: ";
+            }
+        }
+    }
     array_Export(arr, size);
 }
 
+// Hàm sắp xếp mảng sử dụng Selection Sort
 void Selection_Sort(int* arr, int size) {
     for (int i = 0; i < size - 1; i++) {
-        int min_index = i;
-        for (int j = i + 1; j < size; j++)
-            if (arr[j] < arr[min_index])
-                min_index = j;
-        swap(arr[i], arr[min_index]);
+        int minIdx = i;
+        for (int j = i + 1; j < size; j++) {
+            if (arr[j] < arr[minIdx])
+                minIdx = j;
+        }
+        swap(arr[i], arr[minIdx]);
     }
-    cout << "Mang sau khi sap xep la: ";
     array_Export(arr, size);
 }
