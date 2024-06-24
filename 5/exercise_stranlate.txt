@@ -1,0 +1,16 @@
+Create a program with a menu of functions, in the following order, that allows the user to interact with a binary search tree, where the key field at each node is a positive integer.
+
+Enter a binary search tree from the keyboard and print the tree in the following orders: LNR, LRN, NLR, NRL, RNL, RLN.
+Find a node with a key equal to X in the tree. Print a message indicating whether the node was found or not.
+Delete a node with a key equal to X in the tree. Print a message indicating whether the deletion was successful or not.
+Print the total number of nodes in the tree.
+Print the number of nodes with two children.
+Print the number of nodes with one child (degree 1 nodes).
+Print the number of nodes with only one right child.
+Print the number of leaf nodes in the tree.
+Print the height of the tree.
+Print the nodes with even values.
+Print the number of nodes with values greater than X, where X is entered from the keyboard.
+Print the value of the node with the maximum value in the tree.
+Print the value of the node with the smallest key in the right subtree of the tree.
+Print the nodes at each level of the tree.
