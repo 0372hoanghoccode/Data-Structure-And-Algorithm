@@ -1,5 +1,5 @@
 #include <iostream>
-#include <cmath> // Thêm thư viện cmath để sử dụng hàm sqrt
+#include <cmath> 
 #include <ctime> 
 using namespace std;
 
@@ -59,7 +59,6 @@ int main() {
     node* tree = NULL; // Khởi tạo cây nhị phân rỗng
     int n;
     choose(tree, n); // Gọi hàm lựa chọn chức năng
-    system("pause");
     return 0;
 }
 
@@ -87,7 +86,6 @@ void add(node*& root, int value) {
 void importTree(node*& TREE, int& size) {
     cout << "So phan tu muon them la: ";
     cin >> size;
-    system("cls");
     for (int i = 0; i < size; i++)
         add(TREE, random(10, 99)); // Thêm các giá trị ngẫu nhiên vào cây
     cout << "Cay nhi phan sau khi them cac phan tu la:" << endl;
@@ -209,7 +207,6 @@ void checkNodes_levelK(node* root) {
     int k;
     cout << "Muc can in la: ";
     cin >> k;
-    system("cls");
     printNodes_levelK(root, k);
     cout << endl;
 }
@@ -226,6 +223,8 @@ int evenTotal(node* root) {
 
 // Hàm tìm giá trị nhỏ nhất ở cây con phải
 int minValue(node* root) {
+    if (root == NULL)
+        return -1;
     if (root->leftBranch == NULL)
         return root->value;
     return minValue(root->leftBranch);
@@ -233,6 +232,8 @@ int minValue(node* root) {
 
 // Hàm tìm giá trị lớn nhất ở cây con trái
 int maxValue(node* root) {
+    if (root == NULL)
+        return -1;
     if (root->rightBranch == NULL)
         return root->value;
     return maxValue(root->rightBranch);
@@ -240,141 +241,156 @@ int maxValue(node* root) {
 
 // Hàm đếm số node có giá trị nhỏ hơn X
 int countNode_belowX(node* root, int x) {
-    int count = 0;
     if (root == NULL)
         return 0;
-    count = countNode_belowX(root->leftBranch, x) + countNode_belowX(root->rightBranch, x);
+    int count = countNode_belowX(root->leftBranch, x) + countNode_belowX(root->rightBranch, x);
     if (root->value < x)
-        count++;
-    return count;
+        return count + 1;
+    else
+        return count;
 }
 
 // Hàm in số lượng node có giá trị nhỏ hơn X
 void print_nodeAmount(node* root) {
     int x;
-    cout << "Nhap vao so nguyen X: ";
+    cout << "Gia tri x can doi chieu la: ";
     cin >> x;
-    cout << "So luong cac nut co gia tri nho hon " << x << " la: " << countNode_belowX(root, x) << endl;
+    cout << "Trong cay co " << countNode_belowX(root, x) << " nut mang gia tri nho hon " << x << endl;
 }
 
 // Hàm đếm số node có giá trị trong khoảng [X, Y]
 int countNode_inRange(node* root, int x, int y) {
-    int count = 0;
     if (root == NULL)
         return 0;
-    count = countNode_inRange(root->leftBranch, x, y) + countNode_inRange(root->rightBranch, x, y);
-    if (root->value > x && root->value < y)
-        count++;
-    return count;
+    int count = countNode_inRange(root->leftBranch, x, y) + countNode_inRange(root->rightBranch, x, y);
+    if (root->value >= x && root->value <= y)
+        return count + 1;
+    else
+        return count;
 }
 
 // Hàm in số lượng node có giá trị trong khoảng [X, Y]
 void printNode_inRange(node* root) {
     int x, y;
-    cout << "Nhap vao hai so nguyen X va Y: ";
-    cin >> x >> y;
-    cout << "So luong cac nut co gia tri trong khoang tu " << x << " den " << y << " la: " << countNode_inRange(root, x, y) << endl;
+    cout << "Hai can doi chieu la:" << endl;
+    cout << " x = ";
+    cin >> x;
+    cout << " y = ";
+    cin >> y;
+    cout << "Trong cay co " << countNode_inRange(root, x, y) << " nut mang gia tri lon hon " << x << " va nho hon " << y << endl;
 }
 
 // Hàm hiển thị menu các chức năng
 void menu() {
-    cout << "================== LUA CHON ==================" << endl;
-    cout << " (0)  Thoat chuong trinh" << endl;
-    cout << " (1)  Tao cay nhi phan" << endl;
-    cout << " (2)  In cac so nguyen to tren cay" << endl;
+    cout << "==============================================================" << endl;
+    cout << " (1)  Tao day so ngau nhien roi nhap vao cay nhi phan" << endl;
+    cout << " (2)  In ra cac so nguyen to tren cay" << endl;
     cout << " (3)  In ra so nguyen to lon nhat tren cay" << endl;
     cout << " (4)  In ra cac nut o muc K" << endl;
-    cout << " (5)  In ra tong cac so chan o cay con trai" << endl;
+    cout << " (5)  Tinh tong cac so chan o cay con trai" << endl;
     cout << " (6)  In ra phan tu nho nhat o cay con phai" << endl;
     cout << " (7)  In ra phan tu lon nhat o cay con trai" << endl;
     cout << " (8)  Dem so nut co gia tri nho hon X" << endl;
     cout << " (9)  Dem so nut co gia tri lon hon X va nho hon Y" << endl;
-    cout << "================================================" << endl;
+    cout << " (0)  Ket thuc chuong trinh" << endl; // Thêm lựa chọn 0 để kết thúc chương trình
+    cout << "==============================================================" << endl;
 }
 
-// Hàm lựa chọn chức năng
+// Hàm lựa chọn các chức năng
 void choose(node*& tree, int& size) {
-    system("cls");
     int choice;
-    menu();
-    cout << " Lua chon cua ban la: ";
-    cin >> choice;
-    switch (choice) {
-    case 0: // Thoát chương trình
-        exit(0);
-    case 1:
+    do {
         system("cls");
-        importTree(tree, size);
-        break;
-    case 2:
-        system("cls");
-        if (tree == NULL)
-            cout << "Khong co du lieu de thuc hien" << endl;
-        else if (maxPrime(tree) > 0) {
-            cout << "Cac so nguyen to co tren cay la: ";
-            printPrime(tree);
-            cout << endl;
+        menu();
+        cout << "Lua chon cua ban la: ";
+        cin >> choice;
+        switch (choice) {
+        case 1:
+            system("cls");
+            importTree(tree, size);
+            break;
+        case 2:
+            system("cls");
+            if (tree == NULL)
+                cout << "Khong co du lieu de thuc hien" << endl;
+            else if (maxPrime(tree) > 0) {
+                cout << "Cac so nguyen to co tren cay la: ";
+                printPrime(tree);
+                cout << endl;
+            }
+            else
+                cout << "Khong co so nguyen to tren cay" << endl;
+            break;
+        case 3:
+            system("cls");
+            if (tree == NULL)
+                cout << "Khong co du lieu de thuc hien" << endl;
+            else {
+                int max = maxPrime(tree);
+                if (max > 0)
+                    cout << "So nguyen to lon nhat tren cay la " << max << endl;
+                else
+                    cout << "Khong co so nguyen to tren cay" << endl;
+            }
+            break;
+        case 4:
+            system("cls");
+            if (tree == NULL)
+                cout << "Khong co du lieu de thuc hien" << endl;
+            else
+                checkNodes_levelK(tree);
+            break;
+        case 5:
+            system("cls");
+            if (tree == NULL)
+                cout << "Khong co du lieu de thuc hien" << endl;
+            else
+                cout << "Tong cac so chan o cay con trai la " << evenTotal(tree->leftBranch) << endl;
+            break;
+        case 6:
+            system("cls");
+            if (tree == NULL)
+                cout << "Khong co du lieu de thuc hien" << endl;
+            else {
+                int min = minValue(tree->rightBranch);
+                if (min >= 0)
+                    cout << "Phan tu nho nhat o cay con phai la " << min << endl;
+                else
+                    cout << "Cay con phai khong co phan tu" << endl;
+            }
+            break;
+        case 7:
+            system("cls");
+            if (tree == NULL)
+                cout << "Khong co du lieu de thuc hien" << endl;
+            else {
+                int max = maxValue(tree->leftBranch);
+                if (max >= 0)
+                    cout << "Phan tu lon nhat o cay con trai la " << max << endl;
+                else
+                    cout << "Cay con trai khong co phan tu" << endl;
+            }
+            break;
+        case 8:
+            system("cls");
+            if (tree == NULL)
+                cout << "Khong co du lieu de thuc hien" << endl;
+            else
+                print_nodeAmount(tree);
+            break;
+        case 9:
+            system("cls");
+            if (tree == NULL)
+                cout << "Khong co du lieu de thuc hien" << endl;
+            else
+                printNode_inRange(tree);
+            break;
+        case 0:
+            break; // Kết thúc chương trình
+        default:
+            cout << "Lua chon khong hop le. Vui long chon lai!" << endl;
+            break;
         }
-        else cout << "Khong co so nguyen to tren cay" << endl;
-        break;
-    case 3:
-        system("cls");
-        if (tree == NULL)
-            cout << "Khong co du lieu de thuc hien" << endl;
-        else {
-            if (maxPrime(tree) > 0)
-                cout << "So nguyen to lon nhat tren cay la " << maxPrime(tree) << endl;
-            else cout << "Khong co so nguyen to tren cay" << endl;
-        }
-        break;
-    case 4:
-        system("cls");
-        if (tree == NULL)
-            cout << "Khong co du lieu de thuc hien" << endl;
-        else checkNodes_levelK(tree);
-        break;
-    case 5:
-        system("cls");
-        if (tree == NULL)
-            cout << "Khong co du lieu de thuc hien" << endl;
-        else cout << "Tong cac so chan o cay con trai la " << evenTotal(tree->leftBranch) << endl;
-        break;
-    case 6:
-        system("cls");
-        if (tree == NULL)
-            cout << "Khong co du lieu de thuc hien" << endl;
-        else {
-            if (minValue(tree->rightBranch) > 0)
-                cout << "Phan tu nho nhat o cay con phai la " << minValue(tree->rightBranch) << endl;
-            else cout << "Cay con phai khong co phan tu" << endl;
-        }
-        break;
-    case 7:
-        system("cls");
-        if (tree == NULL)
-            cout << "Khong co du lieu de thuc hien" << endl;
-        else {
-            if (maxValue(tree->leftBranch) > 0)
-                cout << "Phan tu lon nhat o cay con trai la " << maxValue(tree->leftBranch) << endl;
-            else cout << "Cay con trai khong co phan tu" << endl;
-        }
-        break;
-    case 8:
-        system("cls");
-        if (tree == NULL)
-            cout << "Khong co du lieu de thuc hien" << endl;
-        else print_nodeAmount(tree);
-        break;
-    case 9:
-        system("cls");
-        if (tree == NULL)
-            cout << "Khong co du lieu de thuc hien" << endl;
-        else printNode_inRange(tree);
-        break;
-    default:
-        choose(tree, size);
-        break;
-    }
-    system("pause");
-    choose(tree, size);
+        system("pause"); // Tạm dừng màn hình để người dùng có thể nhìn thấy kết quả
+    } while (choice != 0); // Lặp lại cho đến khi người dùng chọn 0 để kết thúc chương trình
 }
