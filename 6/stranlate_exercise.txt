@@ -1,0 +1,12 @@
+Given a hash table size of SIZE = 11, starting with an empty hash table, 
+use the following hash functions to insert keys: 32, 15, 25, 44, 36, 21 
+into the hash table and display the resulting hash tables for each of the following scenarios:
+
+a. Hash table using linear probing.
+b. Hash table using quadratic probing.
+c. Hash table using chaining.
+
+Use the following basic hash functions:
+
+f1(key) = key % M
+f2(key) = (M - 2) - (key % (M - 2))
