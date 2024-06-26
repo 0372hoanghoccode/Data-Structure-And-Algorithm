@@ -1,0 +1,83 @@
+giải thích câu a.
+
+Khởi tạo: Bảng băm có kích thước là 11 và các vị trí ban đầu đều được gán giá trị -1.
+
+Thêm giá trị: Đã thêm các giá trị là 32, 15, 25, 44, 36 và 21 vào bảng băm.
+
+Hàm băm (valueOf): Hàm băm được sử dụng là x % 11.
+
+Xác định vị trí của từng giá trị:
+
+Giá trị 32 % 11 = 10, nên 32 được đặt vào vị trí 10.
+Giá trị 15 % 11 = 4, nên 15 được đặt vào vị trí 4.
+Giá trị 25 % 11 = 3, nên 25 được đặt vào vị trí 3.
+Giá trị 44 % 11 = 0, nên 44 được đặt vào vị trí 0.
+Giá trị 36 % 11 = 3, sau khi xét thăm dò tuyến tính, 36 được đặt vào vị trí 5 (bởi vì 3 + 1 = 4 đã có giá trị và 3 + 2 = 5 là vị trí trống đầu tiên tìm được).
+Giá trị 21 % 11 = 10, sau khi xét thăm dò tuyến tính, 21 được đặt vào vị trí 1 (bởi vì 10 + 1 = 11 % 11 = 0 và 10 + 2 = 12 % 11 = 1 là vị trí trống đầu tiên tìm được).
+
+giải thích câu b.
+
+Khởi tạo: Bảng băm cũng có kích thước là 11 và các vị trí ban đầu đều được gán giá trị -1.
+
+Thêm giá trị: Đã thêm các giá trị là 32, 15, 25, 44, 36 và 21 vào bảng băm.
+
+Hàm băm (valueOf): Hàm băm được sử dụng là x % 11.
+
+Xác định vị trí của từng giá trị:
+
+Giá trị 32 % 11 = 10, nên 32 được đặt vào vị trí 10.
+Giá trị 15 % 11 = 4, nên 15 được đặt vào vị trí 4.
+Giá trị 25 % 11 = 3, nên 25 được đặt vào vị trí 3.
+Giá trị 44 % 11 = 0, nên 44 được đặt vào vị trí 0.
+Giá trị 36 % 11 = 3, sau khi xét thăm dò bình phương, 36 được đặt vào vị trí 7 (bởi vì 3 + 1^2 = 4 đã có giá trị và 3 + 2^2 = 7 là vị trí trống đầu tiên tìm được).
+Giá trị 21 % 11 = 10, sau khi xét thăm dò bình phương, 21 được đặt vào vị trí 8 (bởi vì 10 + 1^2 = 11 % 11 = 0 và 10 + 2^2 = 14 % 11 = 3 là vị trí trống đầu tiên tìm được).
+
+giải thích câu c.1
+
+Phương pháp F(key) = key % M'
+Khi sử dụng hàm băm F(key) = key % M', với M' là kích thước của bảng băm (ở đây là 11):
+
+Giá trị 44:
+
+44 % 11 = 0, nên 44 được đặt vào vị trí 0.
+Giá trị 25:
+
+25 % 11 = 3, nên 25 được đặt vào vị trí 3.
+Giá trị 15:
+
+15 % 11 = 4, nên 15 được đặt vào vị trí 4.
+Giá trị 32:
+
+32 % 11 = 10, nên 32 được đặt vào vị trí 10.
+Giá trị 21:
+
+21 % 11 = 10, vị trí này đã có giá trị (32).
+Do đó, 21 sẽ được thêm vào danh sách liên kết tại vị trí 10.
+Giá trị 36:
+
+36 % 11 = 3, vị trí này đã có giá trị (25).
+Do đó, 36 sẽ được thêm vào danh sách liên kết tại vị trí 3.
+
+giải thích câu c.2
+
+Phương pháp F(key) = (tableSize - 2) - (x % (tableSize - 2))
+Khi sử dụng hàm băm F(key) = (tableSize - 2) - (x % (tableSize - 2)), với tableSize là 11:
+
+Giá trị 44:
+
+(11 - 2) - (44 % 9) = 9 - (8) = 1, nên 44 được đặt vào vị trí 1.
+Giá trị 25:
+
+(11 - 2) - (25 % 9) = 9 - (7) = 2, nên 25 được đặt vào vị trí 2.
+Giá trị 15:
+
+(11 - 2) - (15 % 9) = 9 - (6) = 3, nên 15 được đặt vào vị trí 3.
+Giá trị 32:
+
+(11 - 2) - (32 % 9) = 9 - (5) = 4, nên 32 được đặt vào vị trí 4.
+Giá trị 21:
+
+(11 - 2) - (21 % 9) = 9 - (3) = 6, nên 21 được đặt vào vị trí 6.
+Giá trị 36:
+
+(11 - 2) - (36 % 9) = 9 - (0) = 9, nên 36 được đặt vào vị trí 9.
